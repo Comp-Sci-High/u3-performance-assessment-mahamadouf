@@ -570,7 +570,7 @@ app.get("/", (request, response) => {
 })
 
 app.get("/docs", (request, response) => {
-  response.status(200).send("<h1> To use the API service first you can type the path /api/cities/newyorkcity to see the weather in NYC. To see state info type the path /api/states/texas to see information on Texas   </h1>")
+  response.status(200).send("<h1> To use the API service first you can type the path /api/cities/newyorkcity or any city in place of newyorkcity to see the weather there. To see state info type the path /api/states/texas pr in state in place for texas to see information on the state. Don't add spaces in the state or city names!    </h1>")
 })
 
 app.get("/api/cities/newyorkcity", (request, response) => {
@@ -585,36 +585,25 @@ app.get("/api/cities/:search", (request, response) => {
   const searc = request.params.search
   console.log(searc)
 
-  for(let i = 0 ; i <= WeatherStateInfo.Cities.length; i++){
+  for(let i = 0 ; i < WeatherStateInfo.Cities.length; i++){
   if (WeatherStateInfo.Cities[i].name.toLowerCase() == searc){
-  response.send(WeatherStateInfo.Cities[i])
+  response.status(200).send(WeatherStateInfo.Cities[i])
 }
-else if(WeatherStateInfo.Cities[i].name.toLowerCase() !== searc){
-  response.send("<h1>The city you sent is unavailable, try again! </h1>")
-}
-  } 
+} 
+response.status(200).send("<h1>The city you sent is unavailable, try again! </h1>")
 })
 
 app.get("/api/States/:search", (request, response) => {
   const searc = request.params.search
   console.log(searc)
 
-  for(let i = 0 ; i <= WeatherStateInfo.States.length; i++){
+  for(let i = 0 ; i < WeatherStateInfo.States.length; i++){
   if (WeatherStateInfo.States[i].StateName.toLowerCase() == searc){
-  response.send(WeatherStateInfo.States[i])
-} else if(WeatherStateInfo.States[i].StateName.toLowerCase() !== searc){
-  response.send("<h1>The state you sent is unavailable, try again! </h1> ")
-}
-  } 
+  response.status(200).send(WeatherStateInfo.States[i])
+} 
+  } response.status(200).send("<h1>The state you sent is unavailable, try again! </h1>")
+
 })
-
-function getrandomCity() {
-  return Math.floor(Math.random() * WeatherStateInfo.Cities.length);
-}
-
-function getrandomState() {
-  return Math.floor(Math.random() * WeatherStateInfo.States.length);
-}
 
 app.use((request, response, next) => {
   response.status(404).send("404 not found")
